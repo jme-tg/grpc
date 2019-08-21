@@ -352,6 +352,27 @@
 #else /* _LP64 */
 #define GPR_ARCH_32 1
 #endif /* _LP64 */
+#elif 1 /* we'll always use our own platform */
+#define GPR_PLATFORM_STRING "freertos"
+#ifndef _BSD_SOURCE
+#define _BSD_SOURCE
+#endif
+#ifndef _DEFAULT_SOURCE
+#define _DEFAULT_SOURCE
+#endif
+#define GPR_NO_AUTODETECT_PLATFORM
+#define GPR_ARCH_32 1
+#define GPR_GCC_SYNC 1
+#define GPR_GCC_TLS 1
+#define GRPC_POSIX_SOCKET 1
+#define GPR_CPU_CUSTOM 1
+#define GPR_CUSTOM_SYNC 1
+
+#define GPR_CUSTOM_MU_TYPE void *
+#define GPR_CUSTOM_CV_TYPE void *
+#define GPR_CUSTOM_ONCE_TYPE void *
+#define GPR_CUSTOM_ONCE_INIT NULL
+
 #else
 #error "Could not auto-detect platform"
 #endif

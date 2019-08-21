@@ -61,7 +61,7 @@ char* gpr_format_timespec(gpr_timespec tm) {
   char ns_buffer[11];  // '.' + 9 digits of precision
   struct tm* tm_info = localtime((const time_t*)&tm.tv_sec);
   strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%dT%H:%M:%S", tm_info);
-  snprintf(ns_buffer, 11, ".%09d", tm.tv_nsec);
+  snprintf(ns_buffer, 11, ".%09ld", tm.tv_nsec);
   // This loop trims off trailing zeros by inserting a null character that the
   // right point. We iterate in chunks of three because we want 0, 3, 6, or 9
   // fractional digits.
