@@ -31,8 +31,12 @@
 
 #include <errno.h>
 #include <fcntl.h>
+
+#ifdef GPR_USING_LWIP
+#else
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#endif
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/stat.h>

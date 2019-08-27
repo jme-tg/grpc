@@ -34,6 +34,16 @@
 #include "src/core/lib/iomgr/tcp_custom.h"
 #include "src/core/lib/iomgr/tcp_server.h"
 
+#ifdef GPR_USING_LWIP
+#undef close
+#undef bind
+#undef listen
+#undef socket
+#undef getpeername
+#undef accept
+#undef getsockname
+#endif
+
 extern grpc_core::TraceFlag grpc_tcp_trace;
 
 extern grpc_socket_vtable* grpc_custom_socket_vtable;

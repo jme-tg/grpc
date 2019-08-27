@@ -20,6 +20,11 @@
 
 #include "src/core/ext/filters/client_channel/connector.h"
 
+#ifdef GPR_USING_LWIP
+#undef connect
+#undef shutdown
+#endif
+
 grpc_connector* grpc_connector_ref(grpc_connector* connector) {
   connector->vtable->ref(connector);
   return connector;

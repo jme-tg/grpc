@@ -245,8 +245,10 @@ const char* grpc_sockaddr_get_uri_scheme(
       return "ipv4";
     case GRPC_AF_INET6:
       return "ipv6";
+    #ifndef GPR_USING_LWIP
     case GRPC_AF_UNIX:
       return "unix";
+    #endif
   }
   return nullptr;
 }

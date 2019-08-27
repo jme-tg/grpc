@@ -39,6 +39,13 @@
 #include "src/core/lib/slice/slice_internal.h"
 #include "src/core/lib/slice/slice_string_helpers.h"
 
+#ifdef GPR_USING_LWIP
+#undef shutdown
+#undef close
+#undef read
+#undef write
+#endif
+
 #define GRPC_TCP_DEFAULT_READ_SLICE_SIZE 8192
 
 extern grpc_core::TraceFlag grpc_tcp_trace;

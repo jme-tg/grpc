@@ -44,6 +44,10 @@
 static gpr_once s_init_max_accept_queue_size = GPR_ONCE_INIT;
 static int s_max_accept_queue_size;
 
+#ifdef GPR_USING_LWIP
+#define SOMAXCONN 128
+#endif
+
 /* get max listen queue size on linux */
 static void init_max_accept_queue_size(void) {
   int n = SOMAXCONN;

@@ -20,8 +20,11 @@
 #define GRPC_CORE_LIB_IOMGR_EV_POSIX_H
 
 #include <grpc/support/port_platform.h>
-
+#ifdef  GPR_USING_LWIP
+#include <sys/socket.h>
+#else
 #include <poll.h>
+#endif
 
 #include "src/core/lib/debug/trace.h"
 #include "src/core/lib/iomgr/exec_ctx.h"

@@ -27,7 +27,11 @@
 #include <assert.h>
 #include <errno.h>
 #include <limits.h>
+#ifdef  GPR_USING_LWIP
+#undef poll
+#else
 #include <poll.h>
+#endif
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -1615,7 +1619,11 @@ static int cvfd_poll(struct pollfd* fds, nfds_t nfds, int timeout) {
     // Don't bother using background threads for polling if timeout is 0,
     // poll-cv might not wait for a poll to return otherwise.
     // https://github.com/grpc/grpc/issues/13298
+    #ifdef GPR_USING_LWIP
+    return lwip_poll(fds, nfds, 0);
+    #else
     return poll(fds, nfds, 0);
+    #endif
   }
   unsigned int i;
   int res, idx;

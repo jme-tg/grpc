@@ -27,7 +27,10 @@
 
 #include <errno.h>
 #include <limits.h>
+#ifdef GPR_USING_LWIP
+#else
 #include <netinet/in.h>
+#endif
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>

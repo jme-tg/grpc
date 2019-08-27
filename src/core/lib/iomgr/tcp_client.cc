@@ -20,6 +20,10 @@
 
 #include "src/core/lib/iomgr/tcp_client.h"
 
+#ifdef GPR_USING_LWIP
+#undef connect
+#endif
+
 grpc_tcp_client_vtable* grpc_tcp_client_impl;
 
 void grpc_tcp_client_connect(grpc_closure* closure, grpc_endpoint** ep,

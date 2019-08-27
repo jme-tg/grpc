@@ -36,8 +36,10 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#ifndef GPR_USING_LWIP
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#endif
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/stat.h>

@@ -29,6 +29,11 @@
 #include <grpc/impl/codegen/grpc_types.h>
 #include <grpc/support/sync.h>
 
+#ifdef GPR_USING_LWIP
+#undef bind
+#undef socket
+#endif
+
 void grpc_socket_factory_init(grpc_socket_factory* factory,
                               const grpc_socket_factory_vtable* vtable) {
   factory->vtable = vtable;

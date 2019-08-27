@@ -32,6 +32,11 @@
 #include "src/core/lib/iomgr/tcp_custom.h"
 #include "src/core/lib/iomgr/timer.h"
 
+#ifdef GPR_USING_LWIP
+#undef connect
+#undef close
+#endif
+
 extern grpc_core::TraceFlag grpc_tcp_trace;
 extern grpc_socket_vtable* grpc_custom_socket_vtable;
 

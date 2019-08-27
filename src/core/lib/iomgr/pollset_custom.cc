@@ -35,6 +35,11 @@
 
 #include "src/core/lib/debug/trace.h"
 
+#if LWIP_COMPAT_SOCKETS
+#undef shutdown
+#undef poll
+#endif
+
 static grpc_custom_poller_vtable* poller_vtable;
 
 struct grpc_pollset {

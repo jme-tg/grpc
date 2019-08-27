@@ -25,7 +25,11 @@
 #include "src/core/lib/iomgr/tcp_client_posix.h"
 
 #include <errno.h>
+#ifdef GPR_USING_LWIP
+
+#else
 #include <netinet/in.h>
+#endif
 #include <string.h>
 #include <unistd.h>
 

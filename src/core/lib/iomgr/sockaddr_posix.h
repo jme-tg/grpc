@@ -26,7 +26,11 @@
 #ifdef GRPC_POSIX_SOCKET_SOCKADDR
 #include <arpa/inet.h>
 #include <netdb.h>
+#ifdef GPR_USING_LWIP
+#include <lwip/inet.h>
+#else
 #include <netinet/in.h>
+#endif
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>

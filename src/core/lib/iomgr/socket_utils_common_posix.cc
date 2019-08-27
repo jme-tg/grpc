@@ -29,8 +29,12 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#ifdef GPR_USING_LWIP
+
+#else
 #include <netinet/in.h>
 #include <netinet/tcp.h>
+#endif
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>

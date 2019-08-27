@@ -30,6 +30,10 @@
 #include "src/core/lib/iomgr/timer.h"
 #include "src/core/lib/slice/slice_internal.h"
 
+#if GPR_USING_LWIP
+#undef shutdown
+#endif
+
 grpc_core::TraceFlag grpc_handshaker_trace(false, "handshaker");
 
 //
