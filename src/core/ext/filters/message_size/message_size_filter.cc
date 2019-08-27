@@ -132,7 +132,7 @@ static void recv_message_ready(void* user_data, grpc_error* error) {
           static_cast<size_t>(calld->limits.max_recv_size)) {
     char* message_string;
     gpr_asprintf(&message_string,
-                 "Received message larger than max (%u vs. %d)",
+                 "Received message larger than max (%lu vs. %d)",
                  (*calld->recv_message)->length(), calld->limits.max_recv_size);
     grpc_error* new_error = grpc_error_set_int(
         GRPC_ERROR_CREATE_FROM_COPIED_STRING(message_string),
@@ -194,7 +194,7 @@ static void start_transport_stream_op_batch(
       op->payload->send_message.send_message->length() >
           static_cast<size_t>(calld->limits.max_send_size)) {
     char* message_string;
-    gpr_asprintf(&message_string, "Sent message larger than max (%u vs. %d)",
+    gpr_asprintf(&message_string, "Sent message larger than max (%lu vs. %d)",
                  op->payload->send_message.send_message->length(),
                  calld->limits.max_send_size);
     grpc_transport_stream_op_batch_finish_with_failure(
