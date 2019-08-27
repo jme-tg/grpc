@@ -1382,17 +1382,6 @@ filegroups:
   src:
   - src/proto/grpc/channelz/channelz.proto
 libs:
-- name: address_sorting
-  build: all
-  language: c
-  headers:
-  - third_party/address_sorting/address_sorting_internal.h
-  - third_party/address_sorting/include/address_sorting/address_sorting.h
-  src:
-  - third_party/address_sorting/address_sorting.c
-  - third_party/address_sorting/address_sorting_posix.c
-  - third_party/address_sorting/address_sorting_windows.c
-  secure: false
 - name: alts_test_util
   build: private
   language: c
@@ -5760,7 +5749,8 @@ defaults:
       -Wno-implicit-function-declaration -Wno-unused-variable -Wno-sign-compare -Wno-implicit-fallthrough
       $(NO_W_EXTRA_SEMI)
     CPPFLAGS: -Ithird_party/boringssl/include -fvisibility=hidden -DOPENSSL_NO_ASM
-      -D_GNU_SOURCE -DWIN32_LEAN_AND_MEAN -D_HAS_EXCEPTIONS=0 -DNOMINMAX
+      -D_GNU_SOURCE -DWIN32_LEAN_AND_MEAN -D_HAS_EXCEPTIONS=0 -DNOMINMAX -DOPENSSL_NO_THREADS
+      -DOPENSSL_SMALL
     CXXFLAGS: -fno-rtti -fno-exceptions
   cxxabi:
     CPPFLAGS: -D_LIBCPP_DISABLE_EXTERN_TEMPLATE -D_LIBCXXABI_BUILDING_LIBRARY -D_LIBCXXABI_NO_EXCEPTIONS
@@ -5780,50 +5770,3 @@ openssl_fallback:
   base_uri: https://openssl.org/source/old/1.0.2/
   extraction_dir: openssl-1.0.2f
   tarball: openssl-1.0.2f.tar.gz
-php_config_m4:
-  deps:
-  - grpc
-  - gpr
-  - boringssl
-  - z
-  - address_sorting
-  headers:
-  - src/php/ext/grpc/byte_buffer.h
-  - src/php/ext/grpc/call.h
-  - src/php/ext/grpc/call_credentials.h
-  - src/php/ext/grpc/channel.h
-  - src/php/ext/grpc/channel_credentials.h
-  - src/php/ext/grpc/completion_queue.h
-  - src/php/ext/grpc/php7_wrapper.h
-  - src/php/ext/grpc/php_grpc.h
-  - src/php/ext/grpc/server.h
-  - src/php/ext/grpc/server_credentials.h
-  - src/php/ext/grpc/timeval.h
-  - src/php/ext/grpc/version.h
-  src:
-  - src/php/ext/grpc/byte_buffer.c
-  - src/php/ext/grpc/call.c
-  - src/php/ext/grpc/call_credentials.c
-  - src/php/ext/grpc/channel.c
-  - src/php/ext/grpc/channel_credentials.c
-  - src/php/ext/grpc/completion_queue.c
-  - src/php/ext/grpc/php_grpc.c
-  - src/php/ext/grpc/server.c
-  - src/php/ext/grpc/server_credentials.c
-  - src/php/ext/grpc/timeval.c
-python_dependencies:
-  deps:
-  - grpc
-  - gpr
-  - ares
-  - boringssl
-  - z
-  - address_sorting
-ruby_gem:
-  deps:
-  - grpc
-  - gpr
-  - ares
-  - boringssl
-  - z
-  - address_sorting
