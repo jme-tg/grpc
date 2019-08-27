@@ -52,10 +52,10 @@
 #define HAVE_ARPA_INET_H
 
 /* Define to 1 if you have the <arpa/nameser_compat.h> header file. */
-#define HAVE_ARPA_NAMESER_COMPAT_H
+//#define HAVE_ARPA_NAMESER_COMPAT_H
 
 /* Define to 1 if you have the <arpa/nameser.h> header file. */
-#define HAVE_ARPA_NAMESER_H
+//#define HAVE_ARPA_NAMESER_H
 
 /* Define to 1 if you have the <assert.h> header file. */
 #define HAVE_ASSERT_H
@@ -73,7 +73,7 @@
  * Note: setting HAVE_CLOCK_GETTIME_MONOTONIC causes use of the clock_gettime
  * function from glibc, don't set it to support glibc < 2.17 */
 #ifndef GPR_BACKWARDS_COMPATIBILITY_MODE
-  #define HAVE_CLOCK_GETTIME_MONOTONIC
+  //#define HAVE_CLOCK_GETTIME_MONOTONIC
 #endif
 
 /* Define to 1 if you have the closesocket function. */
@@ -128,13 +128,13 @@
 #define HAVE_GETNAMEINFO
 
 /* Define to 1 if you have the getservbyport_r function. */
-#define HAVE_GETSERVBYPORT_R
+//#define HAVE_GETSERVBYPORT_R
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #define HAVE_GETTIMEOFDAY
 
 /* Define to 1 if you have the `if_indextoname' function. */
-#define HAVE_IF_INDEXTONAME
+//#define HAVE_IF_INDEXTONAME
 
 /* Define to 1 if you have a IPv6 capable working inet_net_pton function. */
 /* #undef HAVE_INET_NET_PTON */
@@ -198,7 +198,7 @@
 #define HAVE_NETINET_IN_H
 
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
-#define HAVE_NETINET_TCP_H
+//#define HAVE_NETINET_TCP_H
 
 /* Define to 1 if you have the <net/if.h> header file. */
 #define HAVE_NET_IF_H
@@ -294,7 +294,7 @@
 #define HAVE_STRUCT_TIMEVAL
 
 /* Define to 1 if you have the <sys/ioctl.h> header file. */
-#define HAVE_SYS_IOCTL_H
+//#define HAVE_SYS_IOCTL_H
 
 /* Define to 1 if you have the <sys/param.h> header file. */
 #define HAVE_SYS_PARAM_H
@@ -315,7 +315,7 @@
 #define HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the <sys/uio.h> header file. */
-#define HAVE_SYS_UIO_H
+//#define HAVE_SYS_UIO_H
 
 /* Define to 1 if you have the <time.h> header file. */
 #define HAVE_TIME_H
