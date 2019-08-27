@@ -42,6 +42,10 @@
 #include "src/core/lib/iomgr/iomgr_internal.h"
 #include "src/core/lib/iomgr/unix_sockets_posix.h"
 
+static  const char *gai_strerror(int errcode) {
+  return NULL;
+}
+
 static grpc_error* posix_blocking_resolve_address(
     const char* name, const char* default_port,
     grpc_resolved_addresses** addresses) {
