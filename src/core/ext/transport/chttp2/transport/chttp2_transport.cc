@@ -251,7 +251,7 @@ static bool read_channel_args(grpc_chttp2_transport* t,
           grpc_channel_arg_get_integer(&channel_args->args[i], options);
       if (value >= 0) {
         if ((t->next_stream_id & 1) != (value & 1)) {
-          gpr_log(GPR_ERROR, "%s: low bit must be %d on %s",
+          gpr_log(GPR_ERROR, "%s: low bit must be %ld on %s",
                   GRPC_ARG_HTTP2_INITIAL_SEQUENCE_NUMBER, t->next_stream_id & 1,
                   is_client ? "client" : "server");
         } else {
@@ -756,7 +756,7 @@ static void destroy_stream_locked(void* sp, grpc_error* error) {
 
   for (int i = 0; i < STREAM_LIST_COUNT; i++) {
     if (GPR_UNLIKELY(s->included[i])) {
-      gpr_log(GPR_ERROR, "%s stream %d still included in list %d",
+      gpr_log(GPR_ERROR, "%s stream %lx still included in list %d",
               t->is_client ? "client" : "server", s->id, i);
       abort();
     }
@@ -1121,7 +1121,7 @@ static void queue_setting_update(grpc_chttp2_transport* t,
       &grpc_chttp2_settings_parameters[id];
   uint32_t use_value = GPR_CLAMP(value, sp->min_value, sp->max_value);
   if (use_value != value) {
-    gpr_log(GPR_INFO, "Requested parameter %s clamped from %d to %d", sp->name,
+    gpr_log(GPR_INFO, "Requested parameter %s clamped from %lx to %lx", sp->name,
             value, use_value);
   }
   if (use_value != t->settings[GRPC_LOCAL_SETTINGS][id]) {
@@ -1181,7 +1181,7 @@ static void maybe_start_some_streams(grpc_chttp2_transport* t) {
          grpc_chttp2_list_pop_waiting_for_concurrency(t, &s)) {
     /* safe since we can't (legally) be parsing this stream yet */
     GRPC_CHTTP2_IF_TRACING(gpr_log(
-        GPR_INFO, "HTTP:%s: Allocating new grpc_chttp2_stream %p to id %d",
+        GPR_INFO, "HTTP:%s: Allocating new grpc_chttp2_stream %p to id %lx",
         t->is_client ? "CLI" : "SVR", s, t->next_stream_id));
 
     GPR_ASSERT(s->id == 0);
@@ -1371,7 +1371,7 @@ static void log_metadata(const grpc_metadata_batch* md_batch, uint32_t id,
        md = md->next) {
     char* key = grpc_slice_to_c_string(GRPC_MDKEY(md->md));
     char* value = grpc_slice_to_c_string(GRPC_MDVALUE(md->md));
-    gpr_log(GPR_INFO, "HTTP:%d:%s:%s: %s: %s", id, is_initial ? "HDR" : "TRL",
+    gpr_log(GPR_INFO, "HTTP:%lx:%s:%s: %s: %s", id, is_initial ? "HDR" : "TRL",
             is_client ? "CLI" : "SVR", key, value);
     gpr_free(key);
     gpr_free(value);
@@ -3084,7 +3084,7 @@ static void destructive_reclaimer_locked(void* arg, grpc_error* error) {
     grpc_chttp2_stream* s = static_cast<grpc_chttp2_stream*>(
         grpc_chttp2_stream_map_rand(&t->stream_map));
     if (grpc_resource_quota_trace.enabled()) {
-      gpr_log(GPR_INFO, "HTTP2: %s - abandon stream id %d", t->peer_string,
+      gpr_log(GPR_INFO, "HTTP2: %s - abandon stream id %lx", t->peer_string,
               s->id);
     }
     grpc_chttp2_cancel_stream(

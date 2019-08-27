@@ -1377,7 +1377,7 @@ static void validate_filtered_metadata(batch_control* bctl) {
         grpc_compression_algorithm_name(compression_algorithm, &algo_name);
         gpr_log(GPR_ERROR,
                 "Compression algorithm ('%s') not present in the bitset of "
-                "accepted encodings ('0x%x')",
+                "accepted encodings ('0x%lx')",
                 algo_name, call->encodings_accepted_by_peer);
       }
     }

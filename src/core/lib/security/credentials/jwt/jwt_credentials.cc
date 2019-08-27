@@ -174,7 +174,7 @@ grpc_call_credentials* grpc_service_account_jwt_access_credentials_create(
             "json_key=%s, "
             "token_lifetime="
             "gpr_timespec { tv_sec: %" PRId64
-            ", tv_nsec: %d, clock_type: %d }, "
+            ", tv_nsec: %ld, clock_type: %d }, "
             "reserved=%p)",
             clean_json, token_lifetime.tv_sec, token_lifetime.tv_nsec,
             static_cast<int>(token_lifetime.clock_type), reserved);

@@ -658,7 +658,7 @@ void grpc_chttp2_hpack_compressor_set_max_table_size(
   }
   c->advertise_table_size_change = 1;
   if (grpc_http_trace.enabled()) {
-    gpr_log(GPR_INFO, "set max table size from encoder to %d", max_table_size);
+    gpr_log(GPR_INFO, "set max table size from encoder to %lu", max_table_size);
   }
 }
 

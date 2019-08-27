@@ -1039,7 +1039,7 @@ void* grpc_server_register_method(
   registered_method* m;
   GRPC_API_TRACE(
       "grpc_server_register_method(server=%p, method=%s, host=%s, "
-      "flags=0x%08x)",
+      "flags=0x%08lx)",
       4, (server, method, host, flags));
   if (!method) {
     gpr_log(GPR_ERROR,
@@ -1054,7 +1054,7 @@ void* grpc_server_register_method(
     }
   }
   if ((flags & ~GRPC_INITIAL_METADATA_USED_MASK) != 0) {
-    gpr_log(GPR_ERROR, "grpc_server_register_method invalid flags 0x%08x",
+    gpr_log(GPR_ERROR, "grpc_server_register_method invalid flags 0x%08lx",
             flags);
     return nullptr;
   }

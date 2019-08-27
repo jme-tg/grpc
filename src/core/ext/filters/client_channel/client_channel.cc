@@ -1530,7 +1530,7 @@ static bool maybe_retry(grpc_call_element* elem,
       return false;
     } else {
       if (grpc_client_channel_trace.enabled()) {
-        gpr_log(GPR_INFO, "chand=%p calld=%p: server push-back: retry in %u ms",
+        gpr_log(GPR_INFO, "chand=%p calld=%p: server push-back: retry in %lu ms",
                 chand, calld, ms);
       }
       server_pushback_ms = (grpc_millis)ms;

@@ -672,7 +672,7 @@ static char* fmt_time(gpr_timespec tm) {
       pfx = "";
       break;
   }
-  gpr_asprintf(&out, "\"%s%" PRId64 ".%09d\"", pfx, tm.tv_sec, tm.tv_nsec);
+  gpr_asprintf(&out, "\"%s%" PRId64 ".%09ld\"", pfx, tm.tv_sec, tm.tv_nsec);
   return out;
 }
 

@@ -194,7 +194,7 @@ grpc_error* grpc_chttp2_perform_read(grpc_chttp2_transport* t,
                      t->settings[GRPC_ACKED_SETTINGS]
                                 [GRPC_CHTTP2_SETTINGS_MAX_FRAME_SIZE]) {
         char* msg;
-        gpr_asprintf(&msg, "Frame size %d is larger than max frame size %d",
+        gpr_asprintf(&msg, "Frame size %lu is larger than max frame size %lu",
                      t->incoming_frame_size,
                      t->settings[GRPC_ACKED_SETTINGS]
                                 [GRPC_CHTTP2_SETTINGS_MAX_FRAME_SIZE]);
@@ -276,8 +276,8 @@ static grpc_error* init_frame_parser(grpc_chttp2_transport* t) {
       char* msg;
       gpr_asprintf(
           &msg,
-          "Expected CONTINUATION frame for grpc_chttp2_stream %08x, got "
-          "grpc_chttp2_stream %08x",
+          "Expected CONTINUATION frame for grpc_chttp2_stream %08lx, got "
+          "grpc_chttp2_stream %08lx",
           t->expect_continuation_stream_id, t->incoming_stream_id);
       grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
       gpr_free(msg);
@@ -403,7 +403,7 @@ static void on_initial_header(void* tp, grpc_mdelem md) {
     char* key = grpc_slice_to_c_string(GRPC_MDKEY(md));
     char* value =
         grpc_dump_slice(GRPC_MDVALUE(md), GPR_DUMP_HEX | GPR_DUMP_ASCII);
-    gpr_log(GPR_INFO, "HTTP:%d:HDR:%s: %s: %s", s->id,
+    gpr_log(GPR_INFO, "HTTP:%lu:HDR:%s: %s: %s", s->id,
             t->is_client ? "CLI" : "SVR", key, value);
     gpr_free(key);
     gpr_free(value);
@@ -499,7 +499,7 @@ static void on_trailing_header(void* tp, grpc_mdelem md) {
     char* key = grpc_slice_to_c_string(GRPC_MDKEY(md));
     char* value =
         grpc_dump_slice(GRPC_MDVALUE(md), GPR_DUMP_HEX | GPR_DUMP_ASCII);
-    gpr_log(GPR_INFO, "HTTP:%d:TRL:%s: %s: %s", s->id,
+    gpr_log(GPR_INFO, "HTTP:%lu:TRL:%s: %s: %s", s->id,
             t->is_client ? "CLI" : "SVR", key, value);
     gpr_free(key);
     gpr_free(value);
@@ -600,13 +600,13 @@ static grpc_error* init_header_frame_parser(grpc_chttp2_transport* t,
           GPR_ERROR,
           "ignoring out of order new grpc_chttp2_stream request on server; "
           "last grpc_chttp2_stream "
-          "id=%d, new grpc_chttp2_stream id=%d",
+          "id=%lu, new grpc_chttp2_stream id=%lu",
           t->last_new_stream_id, t->incoming_stream_id));
       return init_skip_frame_parser(t, 1);
     } else if (GPR_UNLIKELY((t->incoming_stream_id & 1) == 0)) {
       GRPC_CHTTP2_IF_TRACING(gpr_log(
           GPR_ERROR,
-          "ignoring grpc_chttp2_stream with non-client generated index %d",
+          "ignoring grpc_chttp2_stream with non-client generated index %lu",
           t->incoming_stream_id));
       return init_skip_frame_parser(t, 1);
     } else if (GPR_UNLIKELY(

@@ -142,12 +142,12 @@ static void report_stall(grpc_chttp2_transport* t, grpc_chttp2_stream* s,
   if (grpc_flowctl_trace.enabled()) {
     gpr_log(
         GPR_DEBUG,
-        "%s:%p stream %d moved to stalled list by %s. This is FULLY expected "
+        "%s:%p stream %lu moved to stalled list by %s. This is FULLY expected "
         "to happen in a healthy program that is not seeing flow control stalls."
         " However, if you know that there are unwanted stalls, here is some "
         "helpful data: [fc:pending=%" PRIdPTR ":pending-compressed=%" PRIdPTR
-        ":flowed=%" PRId64 ":peer_initwin=%d:t_win=%" PRId64
-        ":s_win=%d:s_delta=%" PRId64 "]",
+        ":flowed=%" PRId64 ":peer_initwin=%lu:t_win=%" PRId64
+        ":s_win=%lu:s_delta=%" PRId64 "]",
         t->peer_string, t, s->id, staller, s->flow_controlled_buffer.length,
         s->compressed_data_buffer.length, s->flow_controlled_bytes_flowed,
         t->settings[GRPC_ACKED_SETTINGS]
@@ -406,7 +406,7 @@ class StreamWriteContext {
   StreamWriteContext(WriteContext* write_context, grpc_chttp2_stream* s)
       : write_context_(write_context), t_(write_context->transport()), s_(s) {
     GRPC_CHTTP2_IF_TRACING(
-        gpr_log(GPR_INFO, "W:%p %s[%d] im-(sent,send)=(%d,%d) announce=%d", t_,
+        gpr_log(GPR_INFO, "W:%p %s[%lu] im-(sent,send)=(%d,%d) announce=%d", t_,
                 t_->is_client ? "CLIENT" : "SERVER", s->id,
                 s->sent_initial_metadata, s->send_initial_metadata != nullptr,
                 (int)(s->flow_control->local_window_delta() -

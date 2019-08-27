@@ -395,7 +395,7 @@ grpc_call* grpc_channel_create_registered_call(
       "channel=%p, parent_call=%p, propagation_mask=%x, completion_queue=%p, "
       "registered_call_handle=%p, "
       "deadline=gpr_timespec { tv_sec: %" PRId64
-      ", tv_nsec: %d, clock_type: %d }, "
+      ", tv_nsec: %ld, clock_type: %d }, "
       "reserved=%p)",
       9,
       (channel, parent_call, (unsigned)propagation_mask, completion_queue,

@@ -209,7 +209,7 @@ void grpc_channel_watch_connectivity_state(
       "grpc_channel_watch_connectivity_state("
       "channel=%p, last_observed_state=%d, "
       "deadline=gpr_timespec { tv_sec: %" PRId64
-      ", tv_nsec: %d, clock_type: %d }, "
+      ", tv_nsec: %ld, clock_type: %d }, "
       "cq=%p, tag=%p)",
       7,
       (channel, (int)last_observed_state, deadline.tv_sec, deadline.tv_nsec,

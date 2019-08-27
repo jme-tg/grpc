@@ -205,7 +205,7 @@ grpc_error* grpc_chttp2_settings_parser_parse(void* p, grpc_chttp2_transport* t,
                     t->last_new_stream_id, sp->error_value,
                     grpc_slice_from_static_string("HTTP2 settings error"),
                     &t->qbuf);
-                gpr_asprintf(&msg, "invalid value %u passed for %s",
+                gpr_asprintf(&msg, "invalid value %lu passed for %s",
                              parser->value, sp->name);
                 grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
                 gpr_free(msg);
@@ -224,12 +224,12 @@ grpc_error* grpc_chttp2_settings_parser_parse(void* p, grpc_chttp2_transport* t,
           }
           parser->incoming_settings[id] = parser->value;
           if (grpc_http_trace.enabled()) {
-            gpr_log(GPR_INFO, "CHTTP2:%s:%s: got setting %s = %d",
+            gpr_log(GPR_INFO, "CHTTP2:%s:%s: got setting %s = %lu",
                     t->is_client ? "CLI" : "SVR", t->peer_string, sp->name,
                     parser->value);
           }
         } else if (grpc_http_trace.enabled()) {
-          gpr_log(GPR_ERROR, "CHTTP2: Ignoring unknown setting %d (value %d)",
+          gpr_log(GPR_ERROR, "CHTTP2: Ignoring unknown setting %d (value %lu)",
                   parser->id, parser->value);
         }
         break;

@@ -398,7 +398,7 @@ bool IsServerValid(const grpc_grpclb_server* server, size_t idx, bool log) {
   if (GPR_UNLIKELY(server->port >> 16 != 0)) {
     if (log) {
       gpr_log(GPR_ERROR,
-              "Invalid port '%d' at index %lu of serverlist. Ignoring.",
+              "Invalid port '%ld' at index %lu of serverlist. Ignoring.",
               server->port, (unsigned long)idx);
     }
     return false;
@@ -406,7 +406,7 @@ bool IsServerValid(const grpc_grpclb_server* server, size_t idx, bool log) {
   if (GPR_UNLIKELY(ip->size != 4 && ip->size != 16)) {
     if (log) {
       gpr_log(GPR_ERROR,
-              "Expected IP to be 4 or 16 bytes, got %d at index %lu of "
+              "Expected IP to be 4 or 16 bytes, got %lu at index %lu of "
               "serverlist. Ignoring",
               ip->size, (unsigned long)idx);
     }

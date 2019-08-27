@@ -995,7 +995,7 @@ static grpc_error* parse_lithdr_nvridx_v(grpc_chttp2_hpack_parser* p,
 static grpc_error* finish_max_tbl_size(grpc_chttp2_hpack_parser* p,
                                        const uint8_t* cur, const uint8_t* end) {
   if (grpc_http_trace.enabled()) {
-    gpr_log(GPR_INFO, "MAX TABLE SIZE: %d", p->index);
+    gpr_log(GPR_INFO, "MAX TABLE SIZE: %lu", p->index);
   }
   grpc_error* err =
       grpc_chttp2_hptbl_set_current_table_size(&p->table, p->index);
@@ -1169,7 +1169,7 @@ static grpc_error* parse_value4(grpc_chttp2_hpack_parser* p, const uint8_t* cur,
 
 error:
   gpr_asprintf(&msg,
-               "integer overflow in hpack integer decoding: have 0x%08x, "
+               "integer overflow in hpack integer decoding: have 0x%08lx, "
                "got byte 0x%02x on byte 5",
                *p->parsing.value, *cur);
   grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
@@ -1197,7 +1197,7 @@ static grpc_error* parse_value5up(grpc_chttp2_hpack_parser* p,
 
   char* msg;
   gpr_asprintf(&msg,
-               "integer overflow in hpack integer decoding: have 0x%08x, "
+               "integer overflow in hpack integer decoding: have 0x%08lx, "
                "got byte 0x%02x sometime after byte 5",
                *p->parsing.value, *cur);
   grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
@@ -1358,7 +1358,7 @@ static grpc_error* finish_str(grpc_chttp2_hpack_parser* p, const uint8_t* cur,
       bits = p->base64_buffer;
       if (bits & 0xffff) {
         char* msg;
-        gpr_asprintf(&msg, "trailing bits in base64 encoding: 0x%04x",
+        gpr_asprintf(&msg, "trailing bits in base64 encoding: 0x%04lx",
                      bits & 0xffff);
         grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
         gpr_free(msg);
@@ -1371,7 +1371,7 @@ static grpc_error* finish_str(grpc_chttp2_hpack_parser* p, const uint8_t* cur,
       bits = p->base64_buffer;
       if (bits & 0xff) {
         char* msg;
-        gpr_asprintf(&msg, "trailing bits in base64 encoding: 0x%02x",
+        gpr_asprintf(&msg, "trailing bits in base64 encoding: 0x%02lx",
                      bits & 0xff);
         grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
         gpr_free(msg);

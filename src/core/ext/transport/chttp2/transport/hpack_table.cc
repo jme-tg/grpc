@@ -248,7 +248,7 @@ void grpc_chttp2_hptbl_set_max_bytes(grpc_chttp2_hptbl* tbl,
     return;
   }
   if (grpc_http_trace.enabled()) {
-    gpr_log(GPR_INFO, "Update hpack parser max size to %d", max_bytes);
+    gpr_log(GPR_INFO, "Update hpack parser max size to %lu", max_bytes);
   }
   while (tbl->mem_used > max_bytes) {
     evict1(tbl);
@@ -264,14 +264,14 @@ grpc_error* grpc_chttp2_hptbl_set_current_table_size(grpc_chttp2_hptbl* tbl,
   if (bytes > tbl->max_bytes) {
     char* msg;
     gpr_asprintf(&msg,
-                 "Attempt to make hpack table %d bytes when max is %d bytes",
+                 "Attempt to make hpack table %lu bytes when max is %lu bytes",
                  bytes, tbl->max_bytes);
     grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
     gpr_free(msg);
     return err;
   }
   if (grpc_http_trace.enabled()) {
-    gpr_log(GPR_INFO, "Update hpack parser table size to %d", bytes);
+    gpr_log(GPR_INFO, "Update hpack parser table size to %lu", bytes);
   }
   while (tbl->mem_used > bytes) {
     evict1(tbl);
@@ -299,8 +299,8 @@ grpc_error* grpc_chttp2_hptbl_add(grpc_chttp2_hptbl* tbl, grpc_mdelem md) {
     char* msg;
     gpr_asprintf(
         &msg,
-        "HPACK max table size reduced to %d but not reflected by hpack "
-        "stream (still at %d)",
+        "HPACK max table size reduced to %lu but not reflected by hpack "
+        "stream (still at %lu)",
         tbl->max_bytes, tbl->current_table_bytes);
     grpc_error* err = GRPC_ERROR_CREATE_FROM_COPIED_STRING(msg);
     gpr_free(msg);
