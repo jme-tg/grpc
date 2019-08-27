@@ -266,12 +266,11 @@
 
   ifeq ($(SYSTEM),Linux)
   LIBS = dl rt m
-  # LDFLAGS += -pthread
   endif
 
   ifeq ($(SYSTEM),MINGW32)
-  LIBS = m ws2_32
-  # LDFLAGS += -pthread
+  LIBS = m pthread ws2_32
+  LDFLAGS += -pthread
   endif
 
   #
@@ -574,38 +573,38 @@
 
   CARES_PKG_CONFIG = false
 
-  # ifeq ($(HAS_SYSTEM_CARES),false)
-  # ifeq ($(HAS_EMBEDDED_CARES), true)
-  # EMBED_CARES ?= true
-  # else
-  # DEP_MISSING += cares
-  # EMBED_CARES ?= broken
-  # endif
-  # else
-  # EMBED_CARES ?= false
-  # endif
+  ifeq ($(HAS_SYSTEM_CARES),false)
+  ifeq ($(HAS_EMBEDDED_CARES), true)
+  EMBED_CARES ?= true
+  else
+  DEP_MISSING += cares
+  EMBED_CARES ?= broken
+  endif
+  else
+  EMBED_CARES ?= false
+  endif
 
-  # ADDRESS_SORTING_DEP = $(LIBDIR)/$(CONFIG)/libaddress_sorting.a
-  # ADDRESS_SORTING_MERGE_OBJS = $(LIBADDRESS_SORTING_OBJS)
-  # ADDRESS_SORTING_MERGE_LIBS = $(LIBDIR)/$(CONFIG)/libaddress_sorting.a
-  # CPPFLAGS := -Ithird_party/address_sorting/include $(CPPFLAGS)
+  ADDRESS_SORTING_DEP = $(LIBDIR)/$(CONFIG)/libaddress_sorting.a
+  ADDRESS_SORTING_MERGE_OBJS = $(LIBADDRESS_SORTING_OBJS)
+  ADDRESS_SORTING_MERGE_LIBS = $(LIBDIR)/$(CONFIG)/libaddress_sorting.a
+  CPPFLAGS := -Ithird_party/address_sorting/include $(CPPFLAGS)
 
-  # ifeq ($(EMBED_CARES),true)
-  # CARES_DEP = $(LIBDIR)/$(CONFIG)/libares.a
-  # CARES_MERGE_OBJS = $(LIBARES_OBJS)
-  # CARES_MERGE_LIBS = $(LIBDIR)/$(CONFIG)/libares.a
-  # CPPFLAGS := -Ithird_party/cares -Ithird_party/cares/cares $(CPPFLAGS)
-  # else
-  # ifeq ($(HAS_PKG_CONFIG),true)
-  # PC_REQUIRES_GRPC += libcares
-  # CPPFLAGS += $(shell $(PKG_CONFIG) --cflags libcares)
-  # LDFLAGS += $(shell $(PKG_CONFIG) --libs-only-L libcares)
-  # LIBS += $(patsubst -l%,%,$(shell $(PKG_CONFIG) --libs-only-l libcares))
-  # else
-  # PC_LIBS_GRPC += -lcares
-  # LIBS += cares
-  # endif
-  # endif
+  ifeq ($(EMBED_CARES),true)
+  CARES_DEP = $(LIBDIR)/$(CONFIG)/libares.a
+  CARES_MERGE_OBJS = $(LIBARES_OBJS)
+  CARES_MERGE_LIBS = $(LIBDIR)/$(CONFIG)/libares.a
+  CPPFLAGS := -Ithird_party/cares -Ithird_party/cares/cares $(CPPFLAGS)
+  else
+  ifeq ($(HAS_PKG_CONFIG),true)
+  PC_REQUIRES_GRPC += libcares
+  CPPFLAGS += $(shell $(PKG_CONFIG) --cflags libcares)
+  LDFLAGS += $(shell $(PKG_CONFIG) --libs-only-L libcares)
+  LIBS += $(patsubst -l%,%,$(shell $(PKG_CONFIG) --libs-only-l libcares))
+  else
+  PC_LIBS_GRPC += -lcares
+  LIBS += cares
+  endif
+  endif
 
   OPENSSL_PKG_CONFIG = false
 
@@ -886,7 +885,7 @@
   % endfor
 
   run_dep_checks:
-  	$(E) "[AUTOGEN] Preparing protobuf"
+  	@echo "Viva las Vegas!"
 
   third_party/protobuf/configure:
   	$(E) "[AUTOGEN] Preparing protobuf"
@@ -1499,7 +1498,7 @@
   else
   % endif
 
-  $(LIBDIR)/$(CONFIG)/lib${lib.name}.a: $(ZLIB_DEP) $(OPENSSL_DEP) $(CARES_DEP)\
+  $(LIBDIR)/$(CONFIG)/lib${lib.name}.a: $(ZLIB_DEP) $(OPENSSL_DEP) $(CARES_DEP) $(ADDRESS_SORTING_DEP)\
   ## The else here corresponds to the if secure earlier.
   % else:
   % if lib.language == 'c++':
@@ -1517,9 +1516,10 @@
 
   % endif
   $(LIBDIR)/$(CONFIG)/lib${lib.name}.a: \
-  % if lib.name not in ['z', 'ares']:
+  % if lib.name not in ['z', 'ares', 'address_sorting']:
   $(ZLIB_DEP) \
   $(CARES_DEP) \
+  $(ADDRESS_SORTING_DEP) \
   % endif
   % endif
   % if lib.language == 'c++':
@@ -1529,7 +1529,8 @@
   % if lib.get('baselib', False):
    $(LIBGPR_OBJS) \
    $(ZLIB_MERGE_OBJS) \
-   $(CARES_MERGE_OBJS) \   
+   $(CARES_MERGE_OBJS) \
+   $(ADDRESS_SORTING_MERGE_OBJS) \
   % if lib.get('secure', 'check') == True:
    $(OPENSSL_MERGE_OBJS) \
   % endif
@@ -1542,7 +1543,8 @@
   % if lib.get('baselib', False):
    $(LIBGPR_OBJS) \
    $(ZLIB_MERGE_OBJS) \
-   $(CARES_MERGE_OBJS) \   
+   $(CARES_MERGE_OBJS) \
+   $(ADDRESS_SORTING_MERGE_OBJS) \
   % if lib.get('secure', 'check') == True:
    $(OPENSSL_MERGE_OBJS) \
   % endif
@@ -1565,9 +1567,9 @@
     common = '$(LIB' + lib.name.upper() + '_OBJS)'
 
     link_libs = ''
-    lib_deps = ' $(ZLIB_DEP) $(CARES_DEP)'
+    lib_deps = ' $(ZLIB_DEP) $(CARES_DEP) $(ADDRESS_SORTING_DEP)'
     mingw_libs = ''
-    mingw_lib_deps = ' $(ZLIB_DEP) $(CARES_DEP)'
+    mingw_lib_deps = ' $(ZLIB_DEP) $(CARES_DEP) $(ADDRESS_SORTING_DEP)'
     if lib.language == 'c++':
       lib_deps += ' $(PROTOBUF_DEP)'
       mingw_lib_deps += ' $(PROTOBUF_DEP)'
@@ -1592,7 +1594,7 @@
     security = lib.get('secure', 'check')
     if security == True:
       common = common + ' $(OPENSSL_MERGE_LIBS) $(LDLIBS_SECURE)'
-    common = common + ' $(ZLIB_MERGE_LIBS) $(CARES_MERGE_LIBS)'
+    common = common + ' $(ZLIB_MERGE_LIBS) $(CARES_MERGE_LIBS) $(ADDRESS_SORTING_MERGE_LIBS)'
 
     if security in [True, 'check']:
       for src in lib.src:
@@ -1692,7 +1694,7 @@
   # we do so here with a target specific variable assignment
   $(${tgt.name.upper()}_OBJS): CFLAGS := -Ithird_party/boringssl/include $(CFLAGS) -Wno-sign-conversion -Wno-conversion -Wno-unused-value $(NO_W_EXTRA_SEMI)
   $(${tgt.name.upper()}_OBJS): CXXFLAGS := -Ithird_party/boringssl/include $(CXXFLAGS)
-  $(${tgt.name.upper()}_OBJS): CPPFLAGS += -DOPENSSL_NO_ASM -D_GNU_SOURCE -DOPENSSL_NO_THREADS -DOPENSSL_SMALL
+  $(${tgt.name.upper()}_OBJS): CPPFLAGS += -DOPENSSL_NO_ASM -D_GNU_SOURCE
   % else:
   % endif
 
