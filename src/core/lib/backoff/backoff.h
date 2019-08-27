@@ -41,7 +41,7 @@ class BackOff {
   /// will be the time of the second attempt (rather than the Nth).
   void Reset();
 
-  void SetRandomSeed(unsigned int seed);
+  void SetRandomSeed(uint32_t seed);
 
   class Options {
    public:
