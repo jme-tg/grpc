@@ -1,0 +1,17 @@
+#ifndef _GLIBCXX_CONDITION_VARIABLE
+#define _GLIBCXX_CONDITION_VARIABLE 1
+
+#include <mutex>
+
+namespace std {
+    class condition_variable {
+        public:
+        condition_variable() {}
+        void notify_one() {}
+        void notify_all() {}
+        void wait(std::unique_lock<std::mutex>& lock) {}
+
+    };
+}
+
+#endif

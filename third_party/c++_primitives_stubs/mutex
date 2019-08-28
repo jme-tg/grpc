@@ -1,0 +1,40 @@
+#ifndef _GLIBCXX_MUTEX
+#define _GLIBCXX_MUTEX 1
+#define _GLIBCXX_MUTEX_H 1
+
+namespace std {
+    class mutex {
+        public:
+        mutex() {}
+        void lock() {}
+        bool try_lock();
+        void unlock();
+
+    };
+
+    class once_flag {
+        public:
+        once_flag() {}
+    };
+
+    template<class Mutex> class unique_lock {
+        public:
+        unique_lock(Mutex foo_mutex) {}
+        void unlock() {}
+        void lock() {}
+    };
+
+    template<class Mutex> class lock_guard {
+        public:
+        lock_guard(Mutex foo_mutex) {}
+    };
+
+    template<typename _Callable, typename... _Args>
+    void
+    call_once(once_flag& __once, _Callable&& __f, _Args&&... __args)
+    { }
+
+}
+
+
+#endif
