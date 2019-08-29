@@ -30,7 +30,11 @@
 #include <string.h>
 #include <time.h>
 
+#if 1
+static intptr_t gettid(void) { return 0; }
+#else
 static intptr_t gettid(void) { return (intptr_t)pthread_self(); }
+#endif
 
 void gpr_log(const char* file, int line, gpr_log_severity severity,
              const char* format, ...) {

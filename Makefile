@@ -369,6 +369,7 @@ CPPFLAGS += -fPIC
 LDFLAGS += -fPIC
 endif
 
+CPPFLAGS += -mfloat-abi=hard -mfpu=vfpv3-d16
 CPPFLAGS += -Ithird_party/c++_primitives_stubs -I/usr/local/include -Ithird_party/lwip/contrib/ports/xilinx/include -Ithird_party/lwip/lwip-2.1.1/src/include -Ithird_party/lwip/lwip-2.1.1/src/include/compat/posix
 
 INCLUDES = . include $(GENDIR)
@@ -3311,6 +3312,7 @@ LIBGPR_SRC = \
     src/core/lib/gpr/sync.cc \
     src/core/lib/gpr/sync_posix.cc \
     src/core/lib/gpr/sync_windows.cc \
+    src/core/lib/gpr/sync_custom.cc \
     src/core/lib/gpr/time.cc \
     src/core/lib/gpr/time_posix.cc \
     src/core/lib/gpr/time_precise.cc \

@@ -360,6 +360,7 @@
 #ifndef _DEFAULT_SOURCE
 #define _DEFAULT_SOURCE
 #endif
+#define GPR_POSIX_LOG
 #define GPR_USING_LWIP 1
 #define GPR_NO_AUTODETECT_PLATFORM
 #define GPR_ARCH_32 1
